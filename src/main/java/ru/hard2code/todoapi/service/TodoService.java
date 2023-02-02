@@ -29,7 +29,7 @@ public class TodoService {
     // TODO: 02.02.2023  partial update https://www.baeldung.com/spring-data-partial-update
     public Todo update(Long id, Todo t) {
         Todo todo = findById(id);
-        //todo.setDone(t.isDone());
+        todo.setDone(t.isDone());
         //todo.setDescription(t.getDescription());
         //todo.setLabel(t.getLabel());
 
