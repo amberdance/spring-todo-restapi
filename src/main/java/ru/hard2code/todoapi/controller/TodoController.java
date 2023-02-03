@@ -1,6 +1,7 @@
 package ru.hard2code.todoapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.hard2code.todoapi.exception.ResourceNotFoundException;
 import ru.hard2code.todoapi.model.Todo;
@@ -21,7 +22,8 @@ public class TodoController {
     }
 
     @GetMapping("{id}")
-    public Todo getById(@PathVariable long id) throws ResourceNotFoundException {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public Todo getById(@PathVariable long id) {
         return todoService.findById(id);
     }
 

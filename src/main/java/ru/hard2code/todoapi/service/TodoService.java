@@ -18,10 +18,6 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
-    public Todo findById(Long id) throws ResourceNotFoundException {
-        return todoRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
-    }
-
     public Todo store(Todo todo) {
         return todoRepository.save(todo);
     }
@@ -34,6 +30,10 @@ public class TodoService {
         //todo.setLabel(t.getLabel());
 
         return todoRepository.save(todo);
+    }
+
+    public Todo findById(Long id) {
+        return todoRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
     }
 
     public void deleteById(Long id) {
