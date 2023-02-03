@@ -1,7 +1,13 @@
 package ru.hard2code.todoapi.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -10,6 +16,9 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @CreatedDate
+    @CreationTimestamp
+    private Timestamp createdAt;
     private String label;
     private String description;
     private boolean isDone;
@@ -41,6 +50,10 @@ public class Todo {
         return id;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
     public String getLabel() {
         return label;
     }
@@ -66,6 +79,11 @@ public class Todo {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(id, label, description, isDone);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -75,17 +93,8 @@ public class Todo {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, label, description, isDone);
-    }
-
-    @Override
     public String toString() {
-        return "Todo{" +
-                "id=" + id +
-                ", label='" + label + '\'' +
-                ", description='" + description + '\'' +
-                ", isDone=" + isDone +
-                '}';
+        return "Todo{" + "id=" + id + ", label='" + label + '\'' + ", description='" + description + '\'' + ", isDone"
+                + "=" + isDone + '}';
     }
 }
