@@ -22,7 +22,6 @@ public class TodoController {
     }
 
     @GetMapping("{id}")
-    @ExceptionHandler(ResourceNotFoundException.class)
     public Todo getById(@PathVariable long id) {
         return todoService.findById(id);
     }

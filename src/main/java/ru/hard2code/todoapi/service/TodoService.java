@@ -34,7 +34,7 @@ public class TodoService {
     }
 
     public Todo findById(Long id) {
-        return todoRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        return todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public void deleteById(Long id) {
