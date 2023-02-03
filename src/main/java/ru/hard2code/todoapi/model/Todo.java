@@ -5,9 +5,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -23,27 +20,21 @@ public class Todo {
     private String description;
     private boolean isDone;
 
+    @ManyToOne
+    @JoinColumn(name = "todo_priority_id")
+    private TodoPriority priority;
+
+
     public Todo() {
     }
 
-    public Todo(long id, String label, String description, boolean isDone) {
+
+    public Todo(long id, String label, String description, boolean isDone, TodoPriority priority) {
         this.id = id;
         this.label = label;
         this.description = description;
         this.isDone = isDone;
-    }
-
-    public Todo(String label, String description) {
-        Objects.requireNonNull(label);
-        this.label = label;
-        this.description = description;
-        this.isDone = false;
-    }
-
-    public Todo(String label) {
-        Objects.requireNonNull(label);
-        this.label = label;
-        this.isDone = false;
+        this.priority = priority;
     }
 
     public long getId() {
@@ -76,6 +67,14 @@ public class Todo {
 
     public void setDone(boolean done) {
         isDone = done;
+    }
+
+    public TodoPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TodoPriority priority) {
+        this.priority = priority;
     }
 
     @Override
