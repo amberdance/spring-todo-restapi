@@ -40,4 +40,11 @@ public class TodoService {
     public void deleteById(Long id) {
         todoRepository.deleteById(id);
     }
+
+    public Todo completeTodo(long id, boolean state) {
+        Todo todo = findById(id);
+        todo.setDone(state);
+
+        return todoRepository.save(todo);
+    }
 }

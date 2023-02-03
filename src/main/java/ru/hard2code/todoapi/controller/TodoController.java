@@ -41,5 +41,10 @@ public class TodoController {
         todoService.deleteById(id);
     }
 
+    @PostMapping("/complete")
+    public Todo completeTodo(@RequestBody Todo todo) {
+        return todoService.completeTodo(todo.getId(), todo.isDone());
+    }
+
 
 }
