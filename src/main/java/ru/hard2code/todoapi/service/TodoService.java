@@ -5,6 +5,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.hard2code.todoapi.exception.ResourceNotFoundException;
 import ru.hard2code.todoapi.model.Todo;
+import ru.hard2code.todoapi.model.TodoPriority;
+import ru.hard2code.todoapi.repository.TodoPriorityRepository;
 import ru.hard2code.todoapi.repository.TodoRepository;
 
 import java.util.List;
@@ -14,12 +16,16 @@ public class TodoService {
 
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private TodoPriorityService todoPriorityService;
+
 
     public List<Todo> findAll() {
-        return todoRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        return todoRepository.findAll(Sort.by(Sort.Order.desc("id"), Sort.Order.desc("isDone")));
     }
 
     public Todo store(Todo todo) {
+        if (todo.getPriority() == null) todo.setPriority(todoPriorityService.getDefaultPriority());
         return todoRepository.save(todo);
     }
 

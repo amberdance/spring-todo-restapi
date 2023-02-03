@@ -1,15 +1,11 @@
 package ru.hard2code.todoapi.controller;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.hard2code.todoapi.exception.ResourceNotFoundException;
 import ru.hard2code.todoapi.model.Todo;
 import ru.hard2code.todoapi.model.TodoPriority;
 import ru.hard2code.todoapi.service.TodoService;
@@ -40,7 +36,7 @@ class TodoControllerTest {
 
     private void storeTodo() {
         long id = 20L;
-        todo = new Todo(id, "Todo1", "Description1", false, new TodoPriority(1L, "Hight"));
+        todo = new Todo(id, "Todo1", "Description1", false, new TodoPriority(1L, "High"));
         todoService.store(todo);
     }
 

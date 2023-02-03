@@ -12,7 +12,8 @@ public class TodoPriority {
     private long id;
     @Column(nullable = false)
     private String label;
-
+    @Column(nullable = false)
+    private Priority priority;
 
     public TodoPriority() {
     }
@@ -20,7 +21,9 @@ public class TodoPriority {
     public TodoPriority(long id, String label) {
         this.id = id;
         this.label = label;
+        this.priority = Priority.DEFAULT;
     }
+
 
     public long getId() {
         return id;
@@ -54,5 +57,19 @@ public class TodoPriority {
     @Override
     public String toString() {
         return "TodoPriority{" + "id=" + id + ", label='" + label + '\'' + '}';
+    }
+
+    public enum Priority {
+        HIGH(1), DEFAULT(2), LOW(3);
+
+        private int index;
+
+        Priority(int i) {
+            index = i;
+        }
+
+        public int value() {
+            return index;
+        }
     }
 }
