@@ -1,20 +1,16 @@
 package ru.hard2code.todoapi.controller;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.hard2code.todoapi.exception.ResourceNotFoundException;
 import ru.hard2code.todoapi.model.Todo;
 import ru.hard2code.todoapi.model.TodoPriority;
 import ru.hard2code.todoapi.service.TodoService;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -40,8 +36,16 @@ class TodoControllerTest {
 
     private void storeTodo() {
         long id = 20L;
-        todo = new Todo(id, "Todo1", "Description1", false, new TodoPriority(1L, "Hight"));
+        todo = new Todo(id, "Todo1", "Description1", false, new TodoPriority(1L, "High"));
         todoService.store(todo);
+    }
+
+    @Test
+    public void shouldThrowResourceNotFoundException() throws Exception {
+        long id = 978519L;
+
+        when(todoService.findById(id)).thenThrow(ResourceNotFoundException.class);
+        mvc.perform(get("/todos/{id}", id)).andExpect(status().isNotFound());
     }
 
 }
