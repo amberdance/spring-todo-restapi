@@ -62,7 +62,7 @@ public class TodoPriority {
     public enum Priority {
         HIGH(1), DEFAULT(2), LOW(3);
 
-        private int index;
+        private final int index;
 
         Priority(int i) {
             index = i;

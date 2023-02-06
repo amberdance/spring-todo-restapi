@@ -5,8 +5,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.hard2code.todoapi.exception.ResourceNotFoundException;
 import ru.hard2code.todoapi.model.Todo;
-import ru.hard2code.todoapi.model.TodoPriority;
-import ru.hard2code.todoapi.repository.TodoPriorityRepository;
 import ru.hard2code.todoapi.repository.TodoRepository;
 
 import java.util.List;
@@ -33,8 +31,6 @@ public class TodoService {
     public Todo update(Long id, Todo t) {
         Todo todo = findById(id);
         todo.setDone(t.isDone());
-        //todo.setDescription(t.getDescription());
-        //todo.setLabel(t.getLabel());
 
         return todoRepository.save(todo);
     }

@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ru.hard2code.todoapi.model.TodoPriority;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public interface TodoPriorityRepository extends CrudRepository<TodoPriority, Long> {
