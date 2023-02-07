@@ -7,6 +7,7 @@ import ru.hard2code.todoapi.exception.ResourceNotFoundException;
 import ru.hard2code.todoapi.model.Todo;
 import ru.hard2code.todoapi.repository.TodoRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -25,6 +26,10 @@ public class TodoService {
     public Todo store(Todo todo) {
         if (todo.getPriority() == null) todo.setPriority(todoPriorityService.getDefaultPriority());
         return todoRepository.save(todo);
+    }
+
+    public List<Todo> storeAll(List<Todo> todos) {
+        return todoRepository.saveAll(todos);
     }
 
     // TODO: 02.02.2023  partial update https://www.baeldung.com/spring-data-partial-update

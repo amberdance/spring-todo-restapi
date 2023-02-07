@@ -28,6 +28,12 @@ public class Todo {
     public Todo() {
     }
 
+    public Todo(long id, String label, String description) {
+        this.id = id;
+        this.label = label;
+        this.description = description;
+        this.isDone = false;
+    }
 
     public Todo(long id, String label, String description, boolean isDone, TodoPriority priority) {
         this.id = id;
