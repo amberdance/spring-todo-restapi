@@ -1,62 +1,42 @@
 package ru.hard2code.todoapi.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "todo_priorities")
 public class TodoPriority {
+
     @Id
-    @GeneratedValue
-    private long id;
-    @Column(nullable = false)
-    private String label;
-    @Column(nullable = false)
-    private Priority priority;
-
-    public TodoPriority() {
-    }
-
-    public TodoPriority(long id, String label) {
-        this.id = id;
-        this.label = label;
-        this.priority = Priority.DEFAULT;
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NonNull
+    Long id;
+    @Column
+    @NonNull
+    String label;
+    @Column
+    Priority priority;
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, label);
+        return getClass().hashCode();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         TodoPriority that = (TodoPriority) o;
-        return id == that.id && Objects.equals(label, that.label);
-    }
-
-    @Override
-    public String toString() {
-        return "TodoPriority{" + "id=" + id + ", label='" + label + '\'' + '}';
+        return Objects.equals(id, that.id);
     }
 
     public enum Priority {

@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest
 class TodoControllerTest {
+
     @Autowired
     private MockMvc mvc;
     @Autowired
@@ -36,7 +37,7 @@ class TodoControllerTest {
 
     @BeforeEach
     public void setup() {
-        todo = new Todo(1, "Todo1", "Description1", false, new TodoPriority(1, "High"));
+        todo = Todo.builder().id(1).label("Todo1").description("Description1").isDone(false).priority(new TodoPriority(1L, "High")).build();
     }
 
     @Test
@@ -48,8 +49,7 @@ class TodoControllerTest {
         }};
 
         when(todoService.findAll()).thenReturn(todos);
-        mvc.perform(get("/todos")).andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(todos)));
+        mvc.perform(get("/todos")).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(todos)));
     }
 
 
@@ -58,12 +58,7 @@ class TodoControllerTest {
         long id = todo.getId();
 
         when(todoService.findById(id)).thenReturn(todo);
-        mvc.perform(get("/todos/{id}", id).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpectAll(jsonPath("$.id").value(id),
-                        jsonPath("$.label").value(todo.getLabel()),
-                        jsonPath("$" + ".description").value(todo.getDescription()),
-                        jsonPath("$.done").value(todo.isDone()));
+        mvc.perform(get("/todos/{id}", id).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpectAll(jsonPath("$.id").value(id), jsonPath("$.label").value(todo.getLabel()), jsonPath("$" + ".description").value(todo.getDescription()), jsonPath("$.done").value(todo.isDone()));
     }
 
 
@@ -90,20 +85,13 @@ class TodoControllerTest {
         todo.setDescription(updDescription);
 
         when(todoService.update(id, todo)).thenReturn(todo);
-        mvc.perform(patch("/todos/{id}", id)
-                        .content(objectMapper.writeValueAsBytes(new Todo(todo.getId(), updLabel, updDescription)))
-                        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-                .andExpect(jsonPath("$" + ".label").value(updLabel))
-                .andExpect(jsonPath("$.description").value(updDescription));
+        mvc.perform(patch("/todos/{id}", id).content(objectMapper.writeValueAsBytes(new Todo(todo.getId(), updLabel,
+                updDescription))).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$" + ".label").value(updLabel)).andExpect(jsonPath("$.description").value(updDescription));
     }
 
     @Test
     public void givenJsonString_then200StatusCodeAndTodoReturns() throws Exception {
         when(todoService.store(todo)).thenReturn(todo);
-        mvc.perform(post("/todos")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(todo)))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json((objectMapper.writeValueAsString(todo))));
+        mvc.perform(post("/todos").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(todo))).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().json((objectMapper.writeValueAsString(todo))));
     }
 }
