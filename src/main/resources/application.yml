@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: todo api
+  main:
+    banner-mode: off
+  profiles:
+    active: dev
+
+  datasource:
+    initialization-mode: always
+    platform: postgres
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org:
+      springframework: ERROR
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 9000
